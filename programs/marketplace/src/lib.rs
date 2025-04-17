@@ -23,7 +23,6 @@ pub mod marketplace {
     }
 
     pub fn puchase(ctx: Context<Purchase>)->Result<()>{
-        
         Ok(())
     }
 }
