@@ -12,16 +12,13 @@ pub struct List<'info> {
         bump = marketplace.bump,
     )]
     pub marketplace: Account<'info, Marketplace>,
-
     pub maker_mint: InterfaceAccount<'info, Mint>,
-
     #[account(
         mut,
         associated_token::mint = maker_mint,
         associated_token::authority = maker
     )]
     pub maker_ata: InterfaceAccount<'info, TokenAccount>,
-
     #[account(
         init,
         payer = maker,
@@ -29,8 +26,6 @@ pub struct List<'info> {
         associated_token::authority = listing,
     )]
     pub vault: InterfaceAccount<'info, TokenAccount>,
-
-    pub collection_mint: InterfaceAccount<'info, Mint>,
 
     #[account(
         seeds = [
@@ -60,12 +55,13 @@ pub struct List<'info> {
     #[account(
         init,
         payer = maker,
-        seeds = [b"listing",marketplace.key().as_ref(),maker_mint.key().as_ref()],
+        seeds = [b"listing",marketplace.key().as_ref(),maker_mint.key().as_ref(),maker.key().as_ref()],
         bump,
         space = 8 + Listing::INIT_SPACE,
     )]
     pub listing: Account<'info,Listing>,
     pub metadata_program: Program<'info, Metadata>,
+    pub collection_mint: InterfaceAccount<'info, Mint>,
 
     pub associated_token_program: Program<'info, AssociatedToken>,
     pub system_program: Program<'info,System>,
